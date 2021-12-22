@@ -62,7 +62,7 @@ private fun Greetings(names: List<String> = List(1000) { "$it" }) {
     Column {
         Row(modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = "Lista bonita",
+                text = "Hello List",
                 modifier = Modifier.padding(24.dp),
                 style = MaterialTheme.typography.h1.copy(
                     color = MaterialTheme.colors.secondary,
