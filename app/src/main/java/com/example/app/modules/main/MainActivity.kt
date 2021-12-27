@@ -1,9 +1,12 @@
 package com.example.app.modules.main
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -86,7 +89,11 @@ fun Greeting(name: String) { //Toda vez que a view é criada <-> recomposta. A f
     }
 
     val extraPadding by animateDpAsState(
-        if (expanded) 48.dp else 0.dp
+        if (expanded) 48.dp else 0.dp,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        )
     )
 
     Surface(
@@ -99,7 +106,7 @@ fun Greeting(name: String) { //Toda vez que a view é criada <-> recomposta. A f
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(bottom = extraPadding)
+                    .padding(bottom = extraPadding.coerceAtLeast(0.dp))
             ) {
                 Text(text = "Hello, ")
                 Text(text = name, style = MaterialTheme.typography.h4.copy(
@@ -119,9 +126,17 @@ fun Greeting(name: String) { //Toda vez que a view é criada <-> recomposta. A f
     }
 }
 
-@Preview(showBackground = true, name = "Text Preview")
-@Composable
-fun DefaultPreview() {
+@Preview(
+    showBackground = true,
+    widthDp = 320,
+    uiMode = UI_MODE_NIGHT_YES,
+    name = "DefaultPreviewDark"
+)
+@Preview(
+    showBackground = true,
+    name = "Text Preview"
+)
+@Composable fun DefaultPreview() {
     FirstComposeAppTheme {
         Greetings()
     }
